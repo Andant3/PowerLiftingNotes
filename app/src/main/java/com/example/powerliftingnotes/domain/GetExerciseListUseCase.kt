@@ -1,8 +1,8 @@
 package com.example.powerliftingnotes.domain
 
-class GetExerciseListUseCase {
+class GetExerciseListUseCase(private val exerciseListRepository: ExerciseListRepository) {
 
     fun getExerciseList(): List<Exercise>{
-        TODO()
+        return exerciseListRepository.getExerciseList()
     }
 }

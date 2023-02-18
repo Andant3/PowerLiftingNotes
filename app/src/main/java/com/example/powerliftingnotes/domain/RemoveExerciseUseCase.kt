@@ -1,8 +1,8 @@
 package com.example.powerliftingnotes.domain
 
-class RemoveExerciseUseCase {
+class RemoveExerciseUseCase(private val exerciseListRepository: ExerciseListRepository) {
 
     fun removeExercise(exerciseId: Int){
-
+        exerciseListRepository.removeExercise(exerciseId)
     }
 }
