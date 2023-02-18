@@ -9,6 +9,13 @@ object ExerciseListRepositoryImpl: ExerciseListRepository {
 
     private var autoIncrementId = 0
 
+    init {
+        for (i in 0..10){
+            val item = Exercise("$i exercise", i, i, true)
+            addExercise(item)
+        }
+    }
+
     override fun getExerciseById(exerciseId: Int): Exercise {
         return exerciseList.find{
             it.id == exerciseId
