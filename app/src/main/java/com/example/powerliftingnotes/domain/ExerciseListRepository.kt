@@ -1,5 +1,7 @@
 package com.example.powerliftingnotes.domain
 
+import androidx.lifecycle.LiveData
+
 interface ExerciseListRepository {
 
     fun getExerciseById(exerciseId: Int): Exercise
@@ -10,5 +12,5 @@ interface ExerciseListRepository {
 
     fun removeExercise(exercise: Exercise)
 
-    fun getExerciseList(): List<Exercise>
+    fun getExerciseList(): LiveData<List<Exercise>>
 }

@@ -1,13 +1,25 @@
 package com.example.powerliftingnotes.data
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.powerliftingnotes.domain.Exercise
 import com.example.powerliftingnotes.domain.ExerciseListRepository
+import kotlin.system.exitProcess
 
 object ExerciseListRepositoryImpl: ExerciseListRepository {
 
     private val exerciseList = mutableListOf<Exercise>()
 
+    private val exerciseListLD = MutableLiveData<List<Exercise>>()
+
     private var autoIncrementId = 0
+
+    init {
+        for (i in 0..10){
+            val item = Exercise("$i exercise", i, i, true)
+            addExercise(item)
+        }
+    }
 
     override fun getExerciseById(exerciseId: Int): Exercise {
         return exerciseList.find{
@@ -16,9 +28,9 @@ object ExerciseListRepositoryImpl: ExerciseListRepository {
     }
 
     override fun editExercise(exercise: Exercise) {
-        val oldElement = exercise
+        val oldElement = getExerciseById(exercise.id)
         exerciseList.remove(oldElement)
-        exerciseList.add(exercise)
+        addExercise(exercise)
     }
 
     override fun addExercise(exercise: Exercise) {
@@ -26,13 +38,19 @@ object ExerciseListRepositoryImpl: ExerciseListRepository {
             exercise.id = autoIncrementId++
         }
         exerciseList.add(exercise)
+        updateList()
     }
 
     override fun removeExercise(exercise: Exercise) {
         exerciseList.remove(exercise)
+        updateList()
     }
 
-    override fun getExerciseList(): List<Exercise> {
-        return exerciseList.toList()
+    override fun getExerciseList(): LiveData<List<Exercise>> {
+        return exerciseListLD
+    }
+
+    private fun updateList(){
+        exerciseListLD.value = exerciseList.toList()
     }
 }
