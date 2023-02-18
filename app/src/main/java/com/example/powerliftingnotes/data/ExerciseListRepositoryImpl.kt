@@ -8,14 +8,14 @@ import kotlin.system.exitProcess
 
 object ExerciseListRepositoryImpl: ExerciseListRepository {
 
-    private val exerciseList = mutableListOf<Exercise>()
+    private val exerciseList = sortedSetOf<Exercise>({o1, o2 -> o1.id.compareTo(o2.id)})
 
     private val exerciseListLD = MutableLiveData<List<Exercise>>()
 
     private var autoIncrementId = 0
 
     init {
-        for (i in 0..10){
+        for (i in 0..20){
             val item = Exercise("$i exercise", i, i, true)
             addExercise(item)
         }

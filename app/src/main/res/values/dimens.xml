@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="exercise_name_marginStart">10dp</dimen>
+    <dimen name="exercise_text_size">18sp</dimen>
+    <dimen name="exercise_item_marginStartEnd">6dp</dimen>
+    <dimen name="exercise_item_marginTop">6dp</dimen>
+    <dimen name="floating_button_marginEndBottom">16dp</dimen>
+</resources>
