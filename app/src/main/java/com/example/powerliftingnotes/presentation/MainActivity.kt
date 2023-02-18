@@ -17,8 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this@MainActivity)[MainViewModel::class.java]
         viewModel.exerciseList.observe(this){
-            Log.i("Elements", it.toString())
+            Log.d("Elements", it.toString())
         }
-        viewModel.getExerciseList()
     }
 }

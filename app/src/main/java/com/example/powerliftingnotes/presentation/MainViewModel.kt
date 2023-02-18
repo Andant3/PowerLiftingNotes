@@ -13,21 +13,15 @@ class MainViewModel: ViewModel() {
     val removeExerciseUseCase = RemoveExerciseUseCase(repository)
     val editExerciseUseCase = EditExerciseUseCase(repository)
 
-    val exerciseList = MutableLiveData<List<Exercise>>()
+    val exerciseList = getExerciseListUseCase.getExerciseList()
 
-    fun getExerciseList(){
-        val list = getExerciseListUseCase.getExerciseList()
-        exerciseList.value = list
-    }
 
     fun removeExercise(exercise: Exercise){
         removeExerciseUseCase.removeExercise(exercise)
-        getExerciseList()
     }
 
     fun changeEnableState(exercise: Exercise){
         var newExercise = exercise.copy(enabled = !exercise.enabled)
         editExerciseUseCase.editExercise(newExercise)
-        getExerciseList()
     }
 }
