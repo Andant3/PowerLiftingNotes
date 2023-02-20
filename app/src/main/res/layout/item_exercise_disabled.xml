@@ -7,7 +7,7 @@
     android:layout_marginEnd="@dimen/exercise_item_marginStartEnd"
     android:layout_marginTop="@dimen/exercise_item_marginTop"
     android:backgroundTint="#80BB86FC"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="2dp"
     app:cardElevation="1dp"
     app:cardUseCompatPadding="true">
     <LinearLayout
