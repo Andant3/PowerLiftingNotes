@@ -1,18 +1,12 @@
 package com.example.powerliftingnotes.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.powerliftingnotes.R
-import com.example.powerliftingnotes.domain.Exercise
-import java.util.*
-import kotlin.concurrent.timerTask
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setUpRecyclerView()
         viewModel = ViewModelProvider(this@MainActivity)[MainViewModel::class.java]
         viewModel.exerciseList.observe(this){
-            exerciseListAdapter.exerciseList = it
+            exerciseListAdapter.submitList(it)
         }
     }
     private fun setUpRecyclerView(){
@@ -59,8 +53,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                val exercise = exerciseListAdapter.exerciseList[position]
+                val exercise = exerciseListAdapter.currentList[viewHolder.adapterPosition]
                 viewModel.removeExercise(exercise)
             }
         }

@@ -1,28 +1,16 @@
 package com.example.powerliftingnotes.presentation
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.DiffUtil.DiffResult
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import com.example.powerliftingnotes.R
 import com.example.powerliftingnotes.domain.Exercise
 
-class ExerciseListAdapter : RecyclerView.Adapter<ExerciseListAdapter.ExerciseViewHolder>() {
+class ExerciseListAdapter : ListAdapter<Exercise, ExerciseViewHolder>(ExerciseDiffCallback()) {
 
-    var exerciseList = listOf<Exercise>()
-        set(value) {
-            val callback = ExerciseListDiffCallback(exerciseList, value)
-            val diffResult = DiffUtil.calculateDiff(callback)
-            diffResult.dispatchUpdatesTo(this)
-            field = value
-        }
+
     var onExerciseLongClickListener: ((Exercise) -> Unit)? = null
     var onExerciseClickListener: ((Exercise) -> Unit)? = null
-    var count = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
         val layout = when(viewType){
@@ -37,8 +25,7 @@ class ExerciseListAdapter : RecyclerView.Adapter<ExerciseListAdapter.ExerciseVie
     }
 
     override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
-        Log.d("ExerciseListAdapter", "onBindViewHolder, ${count++}")
-        val exercise = exerciseList[position]
+        val exercise = getItem(position)
 
         holder.tvName.text = exercise.name
         holder.tvWeight.text = exercise.weight.toString()
@@ -53,25 +40,12 @@ class ExerciseListAdapter : RecyclerView.Adapter<ExerciseListAdapter.ExerciseVie
     }
 
     override fun getItemViewType(position: Int): Int {
-        val exercise = exerciseList[position]
+        val exercise = getItem(position)
         return if(exercise.enabled){
             EXERCISE_ENABLED
         }else{
             EXERCISE_DISABLED
         }
-    }
-    override fun getItemCount(): Int {
-        return exerciseList.size
-    }
-
-    class ExerciseViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val tvName = view.findViewById<TextView>(R.id.tv_name)
-        val tvWeight = view.findViewById<TextView>(R.id.tv_weight)
-        val tvReps = view.findViewById<TextView>(R.id.tv_reps)
-    }
-
-    interface OnExerciseClickListener{
-        fun onExerciseClick(exercise: Exercise)
     }
 
     companion object{

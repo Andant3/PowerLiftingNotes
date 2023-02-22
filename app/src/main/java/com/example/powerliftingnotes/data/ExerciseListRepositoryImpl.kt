@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.powerliftingnotes.domain.Exercise
 import com.example.powerliftingnotes.domain.ExerciseListRepository
 import kotlin.random.Random
-import kotlin.system.exitProcess
 
 object ExerciseListRepositoryImpl: ExerciseListRepository {
 
