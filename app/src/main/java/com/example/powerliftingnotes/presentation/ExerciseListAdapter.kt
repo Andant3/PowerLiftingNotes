@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.DiffUtil.DiffResult
 import androidx.recyclerview.widget.RecyclerView
 import com.example.powerliftingnotes.R
 import com.example.powerliftingnotes.domain.Exercise
@@ -13,8 +15,10 @@ class ExerciseListAdapter : RecyclerView.Adapter<ExerciseListAdapter.ExerciseVie
 
     var exerciseList = listOf<Exercise>()
         set(value) {
+            val callback = ExerciseListDiffCallback(exerciseList, value)
+            val diffResult = DiffUtil.calculateDiff(callback)
+            diffResult.dispatchUpdatesTo(this)
             field = value
-            notifyDataSetChanged()
         }
     var onExerciseLongClickListener: ((Exercise) -> Unit)? = null
     var onExerciseClickListener: ((Exercise) -> Unit)? = null
@@ -36,7 +40,7 @@ class ExerciseListAdapter : RecyclerView.Adapter<ExerciseListAdapter.ExerciseVie
         Log.d("ExerciseListAdapter", "onBindViewHolder, ${count++}")
         val exercise = exerciseList[position]
 
-        holder.tvName.text = "${exercise.name}"
+        holder.tvName.text = exercise.name
         holder.tvWeight.text = exercise.weight.toString()
         holder.tvReps.text = exercise.reps.toString()
         holder.view.setOnLongClickListener {
