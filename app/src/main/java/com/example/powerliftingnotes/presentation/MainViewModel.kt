@@ -1,9 +1,11 @@
 package com.example.powerliftingnotes.presentation
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.powerliftingnotes.data.ExerciseListRepositoryImpl
-import com.example.powerliftingnotes.domain.*
+import com.example.powerliftingnotes.domain.EditExerciseUseCase
+import com.example.powerliftingnotes.domain.Exercise
+import com.example.powerliftingnotes.domain.GetExerciseListUseCase
+import com.example.powerliftingnotes.domain.RemoveExerciseUseCase
 
 class MainViewModel: ViewModel() {
 
@@ -21,7 +23,7 @@ class MainViewModel: ViewModel() {
     }
 
     fun changeEnableState(exercise: Exercise){
-        var newExercise = exercise.copy(enabled = !exercise.enabled)
+        val newExercise = exercise.copy(enabled = !exercise.enabled)
         editExerciseUseCase.editExercise(newExercise)
     }
 }

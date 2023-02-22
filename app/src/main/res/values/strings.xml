@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PowerLiftingNotes</string>
+    <string name="add_new_exercise">Add new exercise</string>
 </resources>

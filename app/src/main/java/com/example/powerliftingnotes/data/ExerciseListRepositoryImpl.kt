@@ -4,19 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.powerliftingnotes.domain.Exercise
 import com.example.powerliftingnotes.domain.ExerciseListRepository
-import kotlin.system.exitProcess
+import kotlin.random.Random
 
 object ExerciseListRepositoryImpl: ExerciseListRepository {
 
-    private val exerciseList = mutableListOf<Exercise>()
+    private val exerciseList = sortedSetOf<Exercise>({o1, o2 -> o1.id.compareTo(o2.id)})
 
     private val exerciseListLD = MutableLiveData<List<Exercise>>()
 
     private var autoIncrementId = 0
 
     init {
-        for (i in 0..10){
-            val item = Exercise("$i exercise", i, i, true)
+        for (i in 0..20){
+            val item = Exercise("$i exercise", i, i, Random.nextBoolean())
             addExercise(item)
         }
     }
