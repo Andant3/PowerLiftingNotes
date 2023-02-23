@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">PowerLiftingNotes</string>
     <string name="add_new_exercise">Add new exercise</string>
+    <string name="name_hint">Name:</string>
+    <string name="weight_hint">Weight(kg):</string>
+    <string name="reps_hint">Repetitions:</string>
+    <string name="btn_save">SAVE</string>
 </resources>

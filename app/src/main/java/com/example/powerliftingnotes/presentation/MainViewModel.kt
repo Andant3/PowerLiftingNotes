@@ -17,7 +17,6 @@ class MainViewModel: ViewModel() {
 
     val exerciseList = getExerciseListUseCase.getExerciseList()
 
-
     fun removeExercise(exercise: Exercise){
         removeExerciseUseCase.removeExercise(exercise)
     }

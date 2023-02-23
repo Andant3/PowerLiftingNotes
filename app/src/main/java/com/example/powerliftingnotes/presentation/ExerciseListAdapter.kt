@@ -8,7 +8,6 @@ import com.example.powerliftingnotes.domain.Exercise
 
 class ExerciseListAdapter : ListAdapter<Exercise, ExerciseViewHolder>(ExerciseDiffCallback()) {
 
-
     var onExerciseLongClickListener: ((Exercise) -> Unit)? = null
     var onExerciseClickListener: ((Exercise) -> Unit)? = null
 
