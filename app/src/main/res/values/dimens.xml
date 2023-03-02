@@ -5,4 +5,7 @@
     <dimen name="exercise_item_marginStartEnd">6dp</dimen>
     <dimen name="exercise_item_marginTop">6dp</dimen>
     <dimen name="floating_button_marginEndBottom">16dp</dimen>
+    <dimen name="add_screen_til_marginStartEnd">8dp</dimen>
+    <dimen name="add_screen_til_marginBottom">4dp</dimen>
+    <dimen name="add_screen_btn_marginTop">100dp</dimen>
 </resources>

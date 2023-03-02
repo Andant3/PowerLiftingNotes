@@ -9,6 +9,8 @@ import com.example.powerliftingnotes.domain.RemoveExerciseUseCase
 
 class MainViewModel: ViewModel() {
 
+    //Incorrect way for repository realisation
+    //(Presentation and Data layers dependency)
     val repository = ExerciseListRepositoryImpl
 
     val getExerciseListUseCase = GetExerciseListUseCase(repository)
@@ -16,7 +18,6 @@ class MainViewModel: ViewModel() {
     val editExerciseUseCase = EditExerciseUseCase(repository)
 
     val exerciseList = getExerciseListUseCase.getExerciseList()
-
 
     fun removeExercise(exercise: Exercise){
         removeExerciseUseCase.removeExercise(exercise)

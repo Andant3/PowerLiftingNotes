@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.powerliftingnotes.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +21,11 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this@MainActivity)[MainViewModel::class.java]
         viewModel.exerciseList.observe(this){
             exerciseListAdapter.submitList(it)
+        }
+        val btnAddExercise = findViewById<FloatingActionButton>(R.id.btn_add_exercise)
+        btnAddExercise.setOnClickListener {
+            val intent = ExerciseActivity.newIntentAddExercise(this)
+            startActivity(intent)
         }
     }
     private fun setUpRecyclerView(){
@@ -64,6 +70,8 @@ class MainActivity : AppCompatActivity() {
     private fun setUpClickListener() {
         exerciseListAdapter.onExerciseClickListener = {
             Log.d("OnClick", it.name)
+            val intent = ExerciseActivity.newIntentEditExercise(this, it.id)
+            startActivity(intent)
         }
     }
 
