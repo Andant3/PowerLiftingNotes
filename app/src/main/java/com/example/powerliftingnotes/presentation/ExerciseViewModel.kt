@@ -32,11 +32,11 @@ class ExerciseViewModel : ViewModel() {
 
     private val _errorInputWeight = MutableLiveData<Boolean>()
     val errorInputWeight: LiveData<Boolean>
-        get() = _errorInputName
+        get() = _errorInputWeight
 
     private val _errorInputReps = MutableLiveData<Boolean>()
     val errorInputReps: LiveData<Boolean>
-        get() = _errorInputName
+        get() = _errorInputReps
 
     private val getExerciseUseCase = GetExerciseUseCase(repository)
     private val addExerciseUseCase = AddExerciseUseCase(repository)
@@ -81,7 +81,7 @@ class ExerciseViewModel : ViewModel() {
     private fun parseWeight(inputWeight: String?): Int {
         return try {
             inputWeight?.trim()?.toInt() ?: 0
-        } catch (e: NullPointerException) {
+        } catch (e: NumberFormatException) {
             0
         }
     }
@@ -89,7 +89,7 @@ class ExerciseViewModel : ViewModel() {
     private fun parseReps(inputReps: String?): Int {
         return try {
             inputReps?.trim()?.toInt() ?: 0
-        } catch (e: NullPointerException) {
+        } catch (e: NumberFormatException) {
             0
         }
     }
@@ -112,15 +112,15 @@ class ExerciseViewModel : ViewModel() {
         return result
     }
 
-    private fun resetErrorInputName() {
+    fun resetErrorInputName() {
         _errorInputName.value = false
     }
 
-    private fun resetErrorInputWeight() {
+    fun resetErrorInputWeight() {
         _errorInputWeight.value = false
     }
 
-    private fun resetErrorInputReps() {
+    fun resetErrorInputReps() {
         _errorInputReps.value = false
     }
 

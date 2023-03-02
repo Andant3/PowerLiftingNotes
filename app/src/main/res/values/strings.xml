@@ -5,4 +5,8 @@
     <string name="weight_hint">Weight(kg):</string>
     <string name="reps_hint">Repetitions:</string>
     <string name="btn_save">SAVE</string>
+
+    <string name="error_input_name">Invalid name!</string>
+    <string name="error_input_weight">Invalid weight number!</string>
+    <string name="error_input_reps">Invalid repetitions number!</string>
 </resources>
