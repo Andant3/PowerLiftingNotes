@@ -2,16 +2,10 @@ package com.example.powerliftingnotes.presentation
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.widget.Button
-import android.widget.EditText
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.app.AppCompatActivity
 import com.example.powerliftingnotes.R
 import com.example.powerliftingnotes.domain.Exercise
-import com.google.android.material.textfield.TextInputLayout
 
 class ExerciseActivity : AppCompatActivity() {
 
@@ -25,17 +19,14 @@ class ExerciseActivity : AppCompatActivity() {
 //    private lateinit var etReps: EditText
 //    private lateinit var btnSave: Button
 //
-//    private var screenMode = MODE_UNKNOWN
-//    private var exerciseId = Exercise.UNDEFINED_ID
+    private var screenMode = MODE_UNKNOWN
+    private var exerciseId = Exercise.UNDEFINED_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exercise)
-//        parseIntent()
-//        viewModel = ViewModelProvider(this)[ExerciseViewModel::class.java]
-//        initViews()
-//        addTextChangeListeners()
-//        launchRightMode()
+        parseIntent()
+        launchRightMode()
 //        observeViewModel()
     }
 
@@ -69,13 +60,19 @@ class ExerciseActivity : AppCompatActivity() {
 //        }
 //    }
 //
-//    private fun launchRightMode() {
-//        when (screenMode) {
-//            MODE_EDIT -> launchEditMode()
-//            MODE_ADD -> launchAddMode()
-//        }
-//    }
-//
+    private fun launchRightMode() {
+       val fragment = when (screenMode) {
+            MODE_EDIT -> ExerciseFragment.newInstanceEditExercise(exerciseId)
+            MODE_ADD -> ExerciseFragment.newInstanceAddExercise()
+           else->{
+               throw RuntimeException("Unknown screen mode $screenMode")
+           }
+       }
+    supportFragmentManager.beginTransaction()
+        .add(R.id.exercise_fragment_container, fragment)
+        .commit()
+    }
+
 //    private fun launchAddMode() {
 //        btnSave.setOnClickListener {
 //            btnSave.setOnClickListener {
@@ -103,23 +100,23 @@ class ExerciseActivity : AppCompatActivity() {
 //            )
 //        }
 //    }
-//
-//    private fun parseIntent() {
-//        if (!intent.hasExtra(EXTRA_SCREEN_MODE)) {
-//            throw RuntimeException("Param screen mode is absent")
-//        }
-//        val mode = intent.getStringExtra(EXTRA_SCREEN_MODE)
-//        if (mode != MODE_ADD && mode != MODE_EDIT) {
-//            throw RuntimeException("Unknown screen mode $mode")
-//        }
-//        screenMode = mode
-//        if (screenMode == MODE_EDIT) {
-//            if (!intent.hasExtra(EXTRA_EXERCISE_ID)) {
-//                throw RuntimeException("Param exercise id is absent")
-//            }
-//            exerciseId = intent.getIntExtra(EXTRA_EXERCISE_ID, Exercise.UNDEFINED_ID)
-//        }
-//    }
+
+    private fun parseIntent() {
+        if (!intent.hasExtra(EXTRA_SCREEN_MODE)) {
+            throw RuntimeException("Param screen mode is absent")
+        }
+        val mode = intent.getStringExtra(EXTRA_SCREEN_MODE)
+        if (mode != MODE_ADD && mode != MODE_EDIT) {
+            throw RuntimeException("Unknown screen mode $mode")
+        }
+        screenMode = mode
+        if (screenMode == MODE_EDIT) {
+            if (!intent.hasExtra(EXTRA_EXERCISE_ID)) {
+                throw RuntimeException("Param exercise id is absent")
+            }
+            exerciseId = intent.getIntExtra(EXTRA_EXERCISE_ID, Exercise.UNDEFINED_ID)
+        }
+    }
 //
 //    private fun addTextChangeListeners() {
 //        etName.addTextChangedListener(object : TextWatcher {
