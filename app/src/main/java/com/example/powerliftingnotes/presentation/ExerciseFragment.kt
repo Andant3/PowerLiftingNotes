@@ -15,18 +15,10 @@ import com.example.powerliftingnotes.domain.Exercise
 import com.google.android.material.textfield.TextInputLayout
 
 class ExerciseFragment(
-
-    private val screenMode: String = MODE_UNKNOWN,
-    private val exerciseId: Int = Exercise.UNDEFINED_ID
 ) : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_exercise, container, false)
-    }
+    private var screenMode: String = MODE_UNKNOWN
+    private var exerciseId: Int = Exercise.UNDEFINED_ID
 
     private lateinit var viewModel: ExerciseViewModel
 
@@ -38,10 +30,21 @@ class ExerciseFragment(
     private lateinit var etReps: EditText
     private lateinit var btnSave: Button
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        parseParams()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_exercise, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        parseParams()
         viewModel = ViewModelProvider(this)[ExerciseViewModel::class.java]
         initViews(view)
         addTextChangeListeners()
@@ -115,11 +118,20 @@ class ExerciseFragment(
     }
 
     private fun parseParams() {
-        if(screenMode != MODE_EDIT && screenMode != MODE_ADD){
+        val args = requireArguments()
+        if (!args.containsKey(SCREEN_MODE)) {
             throw RuntimeException("Param screen mode is absent")
         }
-        if (screenMode != MODE_EDIT && exerciseId != Exercise.UNDEFINED_ID){
-            throw RuntimeException("Param screen mode is absent")
+        val mode = args.getString(SCREEN_MODE)
+        if (mode != MODE_ADD && mode != MODE_EDIT) {
+            throw RuntimeException("Unknown screen mode $mode")
+        }
+        screenMode = mode
+        if (screenMode == MODE_EDIT) {
+            if (!args.containsKey(EXERCISE_ID)) {
+                throw RuntimeException("Param exercise id is absent")
+            }
+            exerciseId = args.getInt(EXERCISE_ID, Exercise.UNDEFINED_ID)
         }
     }
 
@@ -176,18 +188,27 @@ class ExerciseFragment(
     }
 
     companion object {
-        private const val EXTRA_SCREEN_MODE = "extra_mode"
-        private const val EXTRA_EXERCISE_ID = "extra_exercise_id"
+        private const val SCREEN_MODE = "extra_mode"
+        private const val EXERCISE_ID = "extra_exercise_id"
         private const val MODE_EDIT = "mode_edit"
         private const val MODE_ADD = "mode_add"
         private const val MODE_UNKNOWN = ""
 
         fun newInstanceAddExercise(): ExerciseFragment{
-            return ExerciseFragment(MODE_ADD)
+            return ExerciseFragment().apply {
+                arguments = Bundle().apply {
+                    putString(SCREEN_MODE, MODE_ADD)
+                }
+            }
         }
 
         fun newInstanceEditExercise(exerciseId: Int): ExerciseFragment{
-            return ExerciseFragment(MODE_EDIT, exerciseId)
+            return ExerciseFragment().apply {
+                arguments = Bundle().apply {
+                    putString(SCREEN_MODE, MODE_EDIT)
+                    putInt(EXERCISE_ID, exerciseId)
+                }
+            }
         }
     }
 }
